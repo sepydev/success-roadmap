@@ -1,5 +1,6 @@
 #Apps with external repository
 users/
+front-end/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
