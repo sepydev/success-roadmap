@@ -167,3 +167,6 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+
+# User app settings
+PASSWORD_RESET_CONFIRM_REDIRECT_URL = "http://127.0.0.1:3000/account/password/reset/confirm/"
