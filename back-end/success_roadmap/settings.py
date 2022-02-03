@@ -32,10 +32,15 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1',
                  ]
 CORS_ALLOWED_ORIGINS = [
-    "127.0.0.1",
+    "http://localhost:8000",
+    "http://localhost:3000",
+    "http://127.0.0.1:8000"
+    "http://127.0.0.1:3000"
 ]
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000', 'http://localhost:3000']
-
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000',
+                        'http://localhost:3000',
+                        'http://127.0.0.1:3000',
+                        ]
 
 # Application definition
 
@@ -171,7 +176,6 @@ EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
-
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'basic': {
@@ -180,6 +184,6 @@ SWAGGER_SETTINGS = {
     },
 }
 
-
 # User app settings
 PASSWORD_RESET_CONFIRM_REDIRECT_URL = "http://127.0.0.1:3000/account/password/reset/confirm/"
+ACCOUNT_CONFIRM_EMAIL_URL = "http://127.0.0.1:3000/account/confirm/email/"
