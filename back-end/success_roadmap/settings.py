@@ -34,6 +34,8 @@ ALLOWED_HOSTS = ['127.0.0.1',
 CORS_ALLOWED_ORIGINS = [
     "127.0.0.1",
 ]
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000', 'http://localhost:3000']
+
 
 # Application definition
 
@@ -110,6 +112,7 @@ DATABASES = {
 }
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ),
@@ -167,6 +170,16 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic'
+        }
+    },
+}
+
 
 # User app settings
 PASSWORD_RESET_CONFIRM_REDIRECT_URL = "http://127.0.0.1:3000/account/password/reset/confirm/"
