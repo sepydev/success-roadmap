@@ -1,6 +1,9 @@
 #Apps with external repository
 users/
 front-end/
+media/
+core/
+personal_to_dos/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -134,4 +137,3 @@ dmypy.json
 .pyre/
 
 
-media/

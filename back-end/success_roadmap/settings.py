@@ -65,8 +65,9 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
 
     # My apps
-    'users',
     'core',
+    'users',
+    'personal_to_dos',
 ]
 SITE_ID = 1
 
