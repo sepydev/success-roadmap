@@ -24,6 +24,7 @@ schema_view = get_swagger_view('Success roadmap API')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('users.urls')),
+    path('personal-to-dos/', include('personal_to_dos.urls')),
     path('api/doc', schema_view)
 
 ]
