@@ -191,3 +191,7 @@ SWAGGER_SETTINGS = {
 # User app settings
 PASSWORD_RESET_CONFIRM_REDIRECT_URL = "http://127.0.0.1:3000/account/password/reset/confirm/"
 ACCOUNT_CONFIRM_EMAIL_URL = "http://127.0.0.1:3000/account/email/confirm/"
+
+REGISTER_SUGGESTION_MODELS = [
+    ('personal_to_dos', 'corevalue'),
+]
