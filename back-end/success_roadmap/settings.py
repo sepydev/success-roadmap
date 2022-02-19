@@ -62,7 +62,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth',
     'dj_rest_auth.registration',
-    'rest_framework_swagger',
+    'drf_yasg',
 
     # My apps
     'core',
@@ -186,6 +186,8 @@ SWAGGER_SETTINGS = {
             'type': 'basic'
         }
     },
+    'TAGS_SORTER': 'alpha',
+
 }
 
 # User app settings

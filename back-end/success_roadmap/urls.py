@@ -13,21 +13,33 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf import settings
-from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
-from rest_framework_swagger.views import get_swagger_view
+from django.urls import path, include, re_path
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
 
-schema_view = get_swagger_view('Success roadmap API')
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Success Roadmap API",
+        default_version='v1',
+        description="This documentation was generated to help front-end developers.",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="sepydev@gmail.com"),
+        license=openapi.License(name="MIT License"),
+    ),
+    public=True,
+    permission_classes=[permissions.AllowAny],
+)
+
+from core.views import MedialView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('users.urls')),
     path('personal-to-dos/', include('personal_to_dos.urls')),
-    path('doc/', schema_view),
     path('core/', include('core.urls')),
-
+    re_path(r'^doc/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('media/images/<str:file>', MedialView.as_view(), name='media'),
 
 ]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
