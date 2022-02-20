@@ -32,14 +32,11 @@ schema_view = get_schema_view(
     permission_classes=[permissions.AllowAny],
 )
 
-from core.views import MedialView
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('users.urls')),
     path('personal-to-dos/', include('personal_to_dos.urls')),
     path('core/', include('core.urls')),
     re_path(r'^doc/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('media/images/<str:file>', MedialView.as_view(), name='media'),
 
 ]
