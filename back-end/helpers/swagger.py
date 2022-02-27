@@ -31,7 +31,7 @@ class ViewSetTagDecorator:
 
 
 class APIViewTagDecorator:
-    def __init__(self, methods, tags):
+    def __init__(self, *, methods, tags):
         self.tags = tags
         self.methods = methods
 
