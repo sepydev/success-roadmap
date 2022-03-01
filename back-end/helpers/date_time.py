@@ -2,6 +2,10 @@ import calendar
 import datetime
 
 
+def add_days(date, days):
+    return date + datetime.timedelta(days=days)
+
+
 def add_months(date, months):
     month = date.month - 1 + months
     year = date.year + month // 12
