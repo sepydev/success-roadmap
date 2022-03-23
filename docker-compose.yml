@@ -1,0 +1,143 @@
+version: "3.9"
+
+#volumes:
+#  db-data:
+services:
+  nginx:
+    restart: always
+    image: nginx
+    container_name: nginx
+    ports:
+      - 8000:8000
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
+      - ./back-end/static:/static
+    depends_on:
+      - django
+
+  db:
+    image: postgres
+    container_name: db
+    environment:
+      POSTGRES_NAME: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+
+  django:
+    restart: always
+    build:
+      context: ./back-end
+    image: nuxt-django-postgresql-django
+    container_name: django
+    volumes:
+      - ./back-end:/app
+      - ./back-end/static:/back-end/static
+    expose:
+      - "8001"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
+#      - rabbitmq
+    command: bash -c "
+      python manage.py migrate
+      && python manage.py collectstatic --noinput
+      &&  uwsgi --socket :8001 --module success_roadmap.wsgi
+      "
+
+  nuxt:
+    build:
+      context: ./front-end/nuxt-success-roadmap
+    container_name: nuxt
+    volumes:
+      - ./front-end/nuxt-success-roadmap:/app
+    ports:
+      - 3000:3000
+    depends_on:
+      - django
+    command: bash -c "yarn install && npm run dev"
+
+
+#  rabbitmq:
+#    container_name: nuxt-django-postgresql.rabbitmq
+#    image: rabbitmq:latest
+#    ports:
+#      - 5672:5672
+#
+#  celery:
+#    image: nuxt-django-postgresql-django
+#    container_name: nuxt-django-postgresql.celery
+#    volumes:
+#      - ./backend:/app
+#    depends_on:
+#      - django
+#    command: bash -c "celery -A success_roadmap worker -l info"
+
+#  celery-beat:
+#    image: nuxt-django-postgresql-django
+#    container_name: nuxt-django-postgresql.celery-beat
+#    volumes:
+#      - ./backend:/app
+#    depends_on:
+#      - django
+#    command: bash -c "celery -A success_roadmap beat -l info"
+
+
+#
+#services:
+#  db:
+#    image: postgres
+#    volumes:
+#      - ./data/db:/var/lib/postgresql/data
+#    environment:
+#      - POSTGRES_NAME=postgres
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres
+#
+#  django:
+#    restart: always
+#    build:
+#      context: ./back-end
+#    command: bash -c "
+#      python manage.py migrate
+#      && python manage.py runserver 0.0.0.0:8000
+#      "
+#    volumes:
+#      - ./back-end:/code
+#    ports:
+#      - "8000:8000"
+#    environment:
+#      - POSTGRES_NAME=postgres
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres
+#    depends_on:
+#      - db
+#
+#  nuxt:
+#    build:
+#      context: ./front-end/nuxt-success-roadmap
+#    tty: true
+#    volumes:
+#      - ./front-end/nuxt-success-roadmap:/app
+#    ports:
+#      - "3000:3000"
+#    depends_on:
+#      - django
+#    command: bash -c "
+#      yarn install
+#      && yarn dev
+#      "

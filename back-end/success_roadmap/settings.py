@@ -30,18 +30,16 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1',
-                 ]
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000",
-    "http://localhost:3000",
-    "http://127.0.0.1:8000"
-    "http://127.0.0.1:3000"
-]
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000',
-                        'http://localhost:3000',
-                        'http://127.0.0.1:3000',
-                        ]
+ALLOWED_HOSTS = ['*']
+# CORS_ORIGIN_ALLOW_ALL = True
+
+
+
+# CSRF_TRUSTED_ORIGINS = [
+#     'http://localhost:8080',
+#     'http://localhost:8001',
+#     'http://nuxt:3000',
+# ]
 
 # Application definition
 
@@ -64,6 +62,7 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
     'drf_yasg',
     'django_filters',
+    'corsheaders',
 
     # My apps
     'core',
@@ -75,6 +74,7 @@ SITE_ID = 1
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -115,13 +115,24 @@ WSGI_APPLICATION = 'success_roadmap.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DATABASE_NAME'),
-        'USER': env('DATABASE_USER'),
-        'PASSWORD': env('DATABASE_PASSWORD'),
-        'HOST': env('DATABASE_HOST'),
-        'PORT': env('DATABASE_PORT'),
+        'NAME': os.environ.get('POSTGRES_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': 'db',
+        'PORT': 5432,
     }
-}
+    }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': env('DATABASE_NAME'),
+#         'USER': env('DATABASE_USER'),
+#         'PASSWORD': env('DATABASE_PASSWORD'),
+#         'HOST': env('DATABASE_HOST'),
+#         'PORT': env('DATABASE_PORT'),
+#     }
+# }
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -171,8 +182,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_ROOT = 'media/'
 MEDIA_URL = 'media/'
+
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -200,8 +214,8 @@ SWAGGER_SETTINGS = {
 }
 
 # User app settings
-PASSWORD_RESET_CONFIRM_REDIRECT_URL = "http://127.0.0.1:3000/account/password/reset/confirm/"
-ACCOUNT_CONFIRM_EMAIL_URL = "http://127.0.0.1:3000/account/email/confirm/"
+PASSWORD_RESET_CONFIRM_REDIRECT_URL = "http://localhost:3000/account/password/reset/confirm/"
+ACCOUNT_CONFIRM_EMAIL_URL = "http://localhost:3000/account/email/confirm/"
 
 REGISTER_SUGGESTION_MODELS = [
     ('personal_to_dos', 'corevalue'),

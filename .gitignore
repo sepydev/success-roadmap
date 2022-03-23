@@ -5,6 +5,10 @@ media/
 core/
 personal_to_dos/
 
+back-end/static/admin/
+back-end/static/drf-yasg/
+back-end/static/rest_framework/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -135,5 +139,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+data/
+
 
 
